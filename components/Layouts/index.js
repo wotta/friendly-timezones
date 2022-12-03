@@ -1,18 +1,20 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Divider, Icon, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
+import {Divider, Icon, Layout, TopNavigation, TopNavigationAction, useTheme} from '@ui-kitten/components';
 import {useNavigation, useRoute} from "@react-navigation/native";
+import {SafeAreaView} from "react-native";
 
 const BackIcon = (props) => (
   <Icon {...props} name='arrow-back'/>
 );
 
 export default function ({ children }) {
+  const theme = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
 
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme['background-basic-color-1'] }}>
+    <Layout style={{flex: 1}}>
       <TopNavigation
         accessoryLeft={
           navigation.canGoBack() && <TopNavigationAction icon={BackIcon} onPress={navigation.goBack} />
@@ -22,6 +24,7 @@ export default function ({ children }) {
       />
       <Divider/>
       {children}
-    </View>
+    </Layout>
+    </SafeAreaView>
   );
 }

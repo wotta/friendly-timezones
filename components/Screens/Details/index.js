@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseLayout from '@components/Layouts';
-import {Icon, Layout, Text, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
+import {Layout, Text} from '@ui-kitten/components';
 
 
 
