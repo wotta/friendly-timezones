@@ -1,66 +1,68 @@
-import React, {useState} from 'react';
+import {StyleSheet} from "react-native";
 import BaseLayout from '@components/Layouts'
-import {Button} from '@ui-kitten/components';
-import {StyleSheet, View} from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import TimezoneList from "@components/TimezoneList";
+import {useIsFocused} from "@react-navigation/native";
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, ButtonGroup, Icon} from '@ui-kitten/components';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ({navigation}) {
-  const [timezones, setTimezones] = useState(null);
-  const navigateDetails = () => {
-    navigation.navigate('Details', {
-      title: 'Dit is een test'
+  const isFocused = useIsFocused();
+  const interval = useRef(0);
+  const [currentListKey, setCurrentListKey] = useState(Date.now())
+  const [timezones, setTimezones] = useState([])
+
+  useEffect(() => {
+    if (! isFocused) {
+      return () => clearInterval(interval.current);
+    }
+
+    (async ()=> {
+      interval.current = setInterval(() => {
+        setCurrentListKey(Date.now());
+      }, 1000);
+
+      const response = JSON.parse(await AsyncStorage.getItem('timezones')) ?? [];
+
+      setTimezones(response);
+    })();
+
+    return () => clearInterval(interval.current);
+  }, [isFocused])
+
+  const removeTimezone = async (index) => {
+    try {
+      let storedTimezones = JSON.parse(await AsyncStorage.getItem('timezones')) ?? [];
+      storedTimezones.splice(index, 1)
+
+      await AsyncStorage.setItem('timezones', JSON.stringify(storedTimezones));
+
+      setTimezones(storedTimezones);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const navigateToCreate = () => {
+    navigation.navigate('Create', {
+      title: 'Hier ben ik'
     });
   };
 
-  const addTestData = async () => {
-    try {
-      const data = await AsyncStorage.setItem('@testKey', 'randomValue')
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  const getData = async () => {
-    try {
-      const data = await AsyncStorage.getItem('@testKey');
-
-      console.log(data);
-
-      setTimezones(data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   return (
     <BaseLayout>
-      <View style={{flex: 1, maxHeight: 192}}>
-
-        <TimezoneList timezones={[
-          {title: 'test', description: 'woot'}
-        ]} />
-
-        <View style={buttonStyles.container}>
-          <View style={buttonStyles.buttons}>
-            <Button onPress={getData}>Reload</Button>
-            <Button onPress={addTestData}></Button>
-            <Button onPress={navigateDetails}>Add</Button>
-          </View>
-        </View>
-      </View>
+      <TimezoneList timezones={timezones} onRemove={removeTimezone} key={currentListKey} />
+      <ButtonGroup style={buttonStyles.container}>
+        <Button accessoryLeft={<Icon name='plus'/>} onPress={navigateToCreate}>Add new</Button>
+      </ButtonGroup>
     </BaseLayout>
   );
 };
 
 const buttonStyles = StyleSheet.create({
   container: {
-    flex: 2,
-    alignItems: "stretch",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    margin: 10,
   },
-  buttons: {
-    flex: 3,
-  }
 });

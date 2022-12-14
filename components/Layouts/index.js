@@ -14,7 +14,6 @@ export default function ({ children }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme['background-basic-color-1'] }}>
-    <Layout style={{flex: 1}}>
       <TopNavigation
         accessoryLeft={
           navigation.canGoBack() && <TopNavigationAction icon={BackIcon} onPress={navigation.goBack} />
@@ -24,7 +23,6 @@ export default function ({ children }) {
       />
       <Divider/>
       {children}
-    </Layout>
     </SafeAreaView>
   );
 }

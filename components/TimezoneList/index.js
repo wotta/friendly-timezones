@@ -1,47 +1,43 @@
+import React from "react";
+import moment from "moment-timezone";
 import {Button, Icon, List, ListItem} from "@ui-kitten/components";
-import { StyleSheet } from 'react-native';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Clipboard from 'expo-clipboard';
 
+export default function ({timezones=[], onRemove}) {
+  const icon = (
+    <Icon name='globe-outline' />
+  )
 
-export default function ({timezones=[]}) {
-  const removeTimezone = async () => {
-    try {
-      const data = await AsyncStorage.removeItem('@testKey');
-    } catch (e) {
-      console.log(e);
-    }
+  const removeButton = (index) => {
+    return (
+      <Button
+        size='tiny'
+        onPress={() => onRemove(index)}
+        accessoryRight={<Icon name='close-outline' />}
+      >
+      </Button>
+    );
+  };
+
+  const copyTime = async (item) => {
+    return await Clipboard.setStringAsync(moment().tz(item).format('HH:mm A'));
   }
-
-  const renderItemAccessory = (props) => (
-    <Button size='tiny' onPress={removeTimezone}>Remove</Button>
-  );
-
-  const renderItemIcon = (props) => (
-    <Icon {...props} name='clock'/>
-  );
 
   const renderItem = ({ item, index }) => (
     <ListItem
-      title={`${item.title} ${index + 1}`}
-      description={`${item.description} ${index + 1}`}
-      accessoryLeft={renderItemIcon}
-      accessoryRight={renderItemAccessory}
+      key={index}
+      title={`${item} :: ${moment().tz(item).format('HH:mm A')}`}
+      onPressOut={() => copyTime(item)}
+      description={moment().tz(item).zoneAbbr()}
+      accessoryLeft={icon}
+      accessoryRight={() => removeButton(index)}
     />
   );
 
   return (
-    <>
-      <List
-        style={styles.container}
-        data={timezones}
-        renderItem={renderItem}
-      />
-    </>
+    <List
+      data={timezones}
+      renderItem={renderItem}
+    />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    maxHeight: 192,
-  },
-});
