@@ -4,7 +4,6 @@
     },
     "waitFor": "onCreateCommand",
     "updateContentCommand": "npm install -g expo-cli && npm install",
-    "postCreateCommand": "",
     "postAttachCommand": {
     },
     "customizations": {
