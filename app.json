@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "69ecc52c-a2ea-4e23-92cd-404f0156226c"
+      }
+    },
+    "owner": "wotta"
   }
 }
