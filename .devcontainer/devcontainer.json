@@ -1,0 +1,20 @@
+{
+    "hostRequirements": {
+        "cpus": 4
+    },
+    "waitFor": "onCreateCommand",
+    "updateContentCommand": "",
+    "postCreateCommand": {
+        "npm install -g expo-cli",
+        "npm install"
+    },
+    "customizations": {
+        "codespaces": {
+            "openFiles": [
+                "App.js",
+            ]
+        }
+    },
+    "portsAttributes": {},
+    "forwardPorts": []
+}
