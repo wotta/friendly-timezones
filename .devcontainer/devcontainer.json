@@ -4,10 +4,10 @@
     },
     "waitFor": "onCreateCommand",
     "updateContentCommand": "",
-    "postCreateCommand": {
+    "postCreateCommand": [
         "npm install -g expo-cli",
         "npm install"
-    },
+    ],
     "customizations": {
         "codespaces": {
             "openFiles": [
