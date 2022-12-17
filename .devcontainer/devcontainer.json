@@ -3,8 +3,8 @@
         "cpus": 4
     },
     "waitFor": "onCreateCommand",
-    "updateContentCommand": "",
-    "postCreateCommand": "npm install -g expo-cli && npm install",
+    "updateContentCommand": "npm install -g expo-cli && npm install",
+    "postCreateCommand": "",
     "customizations": {
         "codespaces": {
             "openFiles": [
