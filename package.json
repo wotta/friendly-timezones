@@ -16,14 +16,16 @@
     "@ui-kitten/components": "^5.1.2",
     "@ui-kitten/eva-icons": "^5.1.2",
     "expo": "~47.0.8",
+    "expo-clipboard": "~4.0.1",
+    "expo-haptics": "~12.0.1",
     "expo-status-bar": "~1.4.2",
     "moment-timezone": "^0.5.39",
     "react": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-gesture-handler": "^2.8.0",
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "~3.18.0",
-    "react-native-svg": "13.4.0",
-    "expo-clipboard": "~4.0.1"
+    "react-native-svg": "13.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
